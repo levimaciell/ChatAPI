@@ -1,27 +1,27 @@
-package dev.levimaciell.chatAPI.usuario.entity;
+package dev.levimaciell.chatAPI.user.entity;
 
-import dev.levimaciell.chatAPI.usuario.dto.UserDto;
+import dev.levimaciell.chatAPI.user.dto.UserDto;
 
 import java.util.UUID;
 
-public class Usuario {
+public class User {
 
     private UUID id;
     private String username;
     private String email;
     private String password;
 
-    public Usuario(UUID id, String username, String email, String password) {
+    public User(UUID id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
     }
 
-    public Usuario() {
+    public User() {
     }
 
-    public Usuario(UserDto dto) {
+    public User(UserDto dto) {
     }
 
 

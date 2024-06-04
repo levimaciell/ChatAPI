@@ -1,8 +1,8 @@
-package dev.levimaciell.chatAPI.usuario.controller;
+package dev.levimaciell.chatAPI.user.controller;
 
-import dev.levimaciell.chatAPI.usuario.TokenResponseDto;
-import dev.levimaciell.chatAPI.usuario.dto.UserDto;
-import dev.levimaciell.chatAPI.usuario.service.UsuarioService;
+import dev.levimaciell.chatAPI.user.TokenResponseDto;
+import dev.levimaciell.chatAPI.user.dto.UserDto;
+import dev.levimaciell.chatAPI.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UsuarioController {
+public class UserController {
 
     @Autowired
-    private UsuarioService usuarioService;
+    private UserService userService;
 
     @PostMapping
-    public ResponseEntity<TokenResponseDto> criarUsuario
+    public ResponseEntity<TokenResponseDto> createUser
             (@RequestBody @Valid UserDto dto, HttpServletRequest req){
 
-        usuarioService.criarUsuario(dto);
+        userService.createUser(dto);
 
 
         return ResponseEntity.ok(new TokenResponseDto());
