@@ -6,6 +6,7 @@ import dev.levimaciell.chatAPI.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +19,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<TokenResponseDto> createUser
+    public ResponseEntity createUser
             (@RequestBody @Valid UserDto dto, HttpServletRequest req){
 
         userService.createUser(dto);
 
-
-        return ResponseEntity.ok(new TokenResponseDto());
+        return new ResponseEntity(null, HttpStatus.CREATED);
     }
 
 

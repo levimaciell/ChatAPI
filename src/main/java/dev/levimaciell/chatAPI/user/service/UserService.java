@@ -14,6 +14,6 @@ public class UserService {
 
     public void createUser(UserDto dto) {
         var usuario = new User(dto);
-
+        repository.save(usuario);
     }
 }
