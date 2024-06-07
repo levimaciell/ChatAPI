@@ -12,10 +12,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @Column(unique = true)
     private String username;
+
+    @Column(unique = true)
     private String email;
     private String password;
-
+    private Boolean usuarioAtivo;
 
 
     public User(UUID id, String username, String email, String password) {
@@ -23,6 +27,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+        usuarioAtivo = true;
     }
 
     public User() {
@@ -32,9 +37,12 @@ public class User {
         username = dto.username();
         email = dto.email();
         password = dto.password();
+        usuarioAtivo = true;
     }
 
-
+    public Boolean getUsuarioAtivo() {
+        return usuarioAtivo;
+    }
 
     public UUID getId() {
         return id;
@@ -50,5 +58,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setUsuarioAtivo(Boolean usuarioAtivo) {
+        this.usuarioAtivo = usuarioAtivo;
     }
 }
