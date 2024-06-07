@@ -16,11 +16,11 @@ public record UserDto(
         String email,
 
         @NotBlank
-        @Pattern(
-                regexp = "/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\\W)(?!.* ).{8,}$/\n",
-                message = "\"A senha deve ter entre 8 e 16 caracteres, incluir pelo menos uma letra maiúscula" +
-                        ", uma letra minúscula, um número e um caractere especial.\""
-        )
+
+        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$@!%&*?])[A-Za-z\\d#$@!%&*?]{8,}$",
+         message = "A senha deve no mínimo 8 caracteres, incluir pelo menos uma letra maiúscula" +
+                        ", uma letra minúscula, um número e um caractere especial.")
+//TODO: Transformar cada pequena validação dessa em um pequeno erro.
         String password
 ) {
 }
