@@ -19,7 +19,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    private Boolean usuarioAtivo;
+    private Boolean userActive;
 
 
     public User(UUID id, String username, String email, String password) {
@@ -27,7 +27,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        usuarioAtivo = true;
+        userActive = true;
     }
 
     public User() {
@@ -37,11 +37,11 @@ public class User {
         username = dto.username();
         email = dto.email();
         password = dto.password();
-        usuarioAtivo = true;
+        userActive = true;
     }
 
-    public Boolean getUsuarioAtivo() {
-        return usuarioAtivo;
+    public Boolean getUserActive() {
+        return userActive;
     }
 
     public UUID getId() {
@@ -60,7 +60,15 @@ public class User {
         return password;
     }
 
-    public void setUsuarioAtivo(Boolean usuarioAtivo) {
-        this.usuarioAtivo = usuarioAtivo;
+    public void setUserActive(Boolean userActive) {
+        this.userActive = userActive;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

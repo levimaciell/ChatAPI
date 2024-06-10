@@ -36,13 +36,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/users")
+    @PutMapping("/users/{id}")
     @Transactional
-    public ResponseEntity updateUser(@RequestBody @Valid UserUpdateDto dto){
+    public ResponseEntity<UserUpdateDto> updateUser(@RequestBody @Valid UserUpdateDto dto,
+                                                    @PathVariable UUID id){
 
-        userService.updateUser(dto);
+        userService.updateUser(dto, id);
 
-        return new ResponseEntity(null, HttpStatus.CREATED);
+        return ResponseEntity.ok().build();
     }
 
 
