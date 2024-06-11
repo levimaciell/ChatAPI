@@ -1,5 +1,8 @@
 package dev.levimaciell.chatAPI.authentication;
 
+import dev.levimaciell.chatAPI.tokens.TokenResponseDto;
+import dev.levimaciell.chatAPI.tokens.TokenService;
+import dev.levimaciell.chatAPI.user.entity.User;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +21,19 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService service;
+
     @PostMapping
     @Transactional
-    public ResponseEntity login(@RequestBody @Valid LoginDto dto){
-        var authenticationToken = new UsernamePasswordAuthenticationToken(dto.username(), dto.password());
-        manager.authenticate(authenticationToken);
+    public ResponseEntity<TokenResponseDto> login(@RequestBody @Valid LoginDto dto){
 
-        return ResponseEntity.ok().build();
+        var authenticationToken = new UsernamePasswordAuthenticationToken(dto.username(), dto.password());
+        var auth = manager.authenticate(authenticationToken);
+
+        var token = service.createToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new TokenResponseDto(token));
     }
 
 
