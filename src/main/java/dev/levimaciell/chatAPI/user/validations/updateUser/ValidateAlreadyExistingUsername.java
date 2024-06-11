@@ -16,7 +16,7 @@ public class ValidateAlreadyExistingUsername implements Validation<UserUpdateDto
     public void validate(UserUpdateDto value) {
         var foundUsername = repository.findByUsername(value.username());
 
-        if(foundUsername.isPresent())
+        if(foundUsername != null)
             throw new UserUpdateValidationException("It is not possible to update your username to " + value.username());
     }
 }

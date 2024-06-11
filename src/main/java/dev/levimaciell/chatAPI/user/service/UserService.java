@@ -6,6 +6,7 @@ import dev.levimaciell.chatAPI.user.dto.UserUpdateDto;
 import dev.levimaciell.chatAPI.user.entity.User;
 import dev.levimaciell.chatAPI.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +21,13 @@ public class UserService {
     @Autowired
     private List<Validation<UserUpdateDto>> validacoesUpdate;
 
+    @Autowired
+    private PasswordEncoder encoder;
 
     public void createUser(UserDto dto) {
-        var usuario = new User(dto);
-        repository.save(usuario);
+        var updatedDto = new UserDto(dto.username(), dto.email(), encoder.encode(dto.password()));
+        var user = new User(updatedDto);
+        repository.save(user);
     }
 
     public void deleteUser(UUID id){
@@ -51,7 +55,7 @@ public class UserService {
             foundUser.setUsername(dto.username());
 
         if(dto.password() != null)
-            foundUser.setPassword(dto.password());
+            foundUser.setPassword(encoder.encode(dto.password()));
 
     }
 }
