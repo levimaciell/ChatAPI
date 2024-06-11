@@ -43,7 +43,7 @@ public class UserService {
     }
 
     //TODO: Trocar esquema do UUID pelo username do Token JWT futuramente
-    public void updateUser(UserUpdateDto dto, UUID id) {
+    public User updateUser(UserUpdateDto dto, UUID id) {
 
         //Validating the given DTO
         validacoesUpdate.forEach(v -> v.validate(dto));
@@ -57,5 +57,6 @@ public class UserService {
         if(dto.password() != null)
             foundUser.setPassword(encoder.encode(dto.password()));
 
+        return foundUser;
     }
 }

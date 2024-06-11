@@ -1,5 +1,7 @@
 package dev.levimaciell.chatAPI.user.controller;
 
+import dev.levimaciell.chatAPI.tokens.TokenResponseDto;
+import dev.levimaciell.chatAPI.tokens.TokenService;
 import dev.levimaciell.chatAPI.user.dto.UserDto;
 import dev.levimaciell.chatAPI.user.service.UserService;
 import dev.levimaciell.chatAPI.user.dto.UserUpdateDto;
@@ -17,6 +19,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/sign-up")
     @Transactional
@@ -38,12 +43,13 @@ public class UserController {
 
     @PutMapping("/users/{id}")
     @Transactional
-    public ResponseEntity<UserUpdateDto> updateUser(@RequestBody @Valid UserUpdateDto dto,
-                                                    @PathVariable UUID id){
+    public ResponseEntity<TokenResponseDto> updateUser(@RequestBody @Valid UserUpdateDto dto,
+                                                       @PathVariable UUID id){
 
-        userService.updateUser(dto, id);
+        var user = userService.updateUser(dto, id);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.createToken(user);
+        return ResponseEntity.ok(new TokenResponseDto(token));
     }
 
 
