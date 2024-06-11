@@ -5,6 +5,7 @@ import dev.levimaciell.chatAPI.tokens.TokenService;
 import dev.levimaciell.chatAPI.user.dto.UserDto;
 import dev.levimaciell.chatAPI.user.service.UserService;
 import dev.levimaciell.chatAPI.user.dto.UserUpdateDto;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,15 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/users")
     @Transactional
     public ResponseEntity<TokenResponseDto> updateUser(@RequestBody @Valid UserUpdateDto dto,
-                                                       @PathVariable UUID id){
+                                                       HttpServletRequest req){
 
-        var user = userService.updateUser(dto, id);
+        var subject = tokenService.validateTokenAndGetSubject(req.getHeader("Authorization")
+                .replace("Bearer ", ""));
+
+        var user = userService.updateUser(dto, subject);
 
         var token = tokenService.createToken(user);
         return ResponseEntity.ok(new TokenResponseDto(token));

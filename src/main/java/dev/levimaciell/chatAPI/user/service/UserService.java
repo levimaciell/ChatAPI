@@ -42,14 +42,15 @@ public class UserService {
 
     }
 
-    //TODO: Trocar esquema do UUID pelo username do Token JWT futuramente
-    public User updateUser(UserUpdateDto dto, UUID id) {
+    public User updateUser(UserUpdateDto dto, String username) {
 
         //Validating the given DTO
         validacoesUpdate.forEach(v -> v.validate(dto));
 
-        var foundUser = repository.findById(id).orElseThrow(() ->
-                new RuntimeException("The given id is invalid!"));
+        var foundUser = repository.getReferenceByUsername(username);
+
+        if(foundUser == null)
+                throw new RuntimeException("It was not possible to update any info.");
 
         if(dto.username() != null)
             foundUser.setUsername(dto.username());
