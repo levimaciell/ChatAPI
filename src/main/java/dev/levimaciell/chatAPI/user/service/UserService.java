@@ -30,12 +30,9 @@ public class UserService {
         repository.save(user);
     }
 
-    public void deleteUser(UUID id){
-        var user = repository.findById(id).orElseThrow(
-                () -> new RuntimeException("User not found with given id!")
-        );
-
-        if(!user.getUserActive())
+    public void deleteUser(String username){
+        var user = repository.getReferenceByUsername(username);
+        if(user == null || !user.getUserActive())
             throw new RuntimeException("User not found with given id!");
 
         user.setUserActive(false);
