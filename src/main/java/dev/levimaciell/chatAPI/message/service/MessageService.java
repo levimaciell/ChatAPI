@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MessageService {
@@ -29,6 +30,9 @@ public class MessageService {
     @Autowired
     private List<Validation<MessageCreationDto>> messageCreationValidations;
 
+    @Autowired
+    private List<Validation<UUID>> messageDeletionValidations;
+
     public MessageDto createMessage(MessageCreationDto dto, HttpServletRequest req) {
 
         messageCreationValidations.forEach(v -> v.validate(dto));
@@ -44,6 +48,13 @@ public class MessageService {
 
         return new MessageDto(message);
     }
+
+    public void deleteMessage(UUID id) {
+
+        messageDeletionValidations.forEach(v -> v.validate(id));
+
+        messageRepository.deleteById(id);
+    }
     
     private User getUserByToken(String token){
         var userName = tokenService.validateTokenAndGetSubject(token);
@@ -53,4 +64,6 @@ public class MessageService {
     private String cleanToken(String token){
         return token.replace("Bearer ", "");
     }
+
+
 }
