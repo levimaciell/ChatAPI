@@ -10,6 +10,8 @@ import dev.levimaciell.chatAPI.user.entity.User;
 import dev.levimaciell.chatAPI.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,11 +29,12 @@ public class MessageService {
     @Autowired
     private TokenService tokenService;
 
+    //Validations
     @Autowired
     private List<Validation<MessageCreationDto>> messageCreationValidations;
-
     @Autowired
     private List<Validation<UUID>> messageDeletionValidations;
+
 
     public MessageDto createMessage(MessageCreationDto dto, HttpServletRequest req) {
 
@@ -66,4 +69,8 @@ public class MessageService {
     }
 
 
+    public Page<MessageDto> getMessages(Pageable pageable, HttpServletRequest req) {
+        var username = getUserByToken(cleanToken(req.getHeader("Authorization")));
+        return messageRepository.findAllByUsername(pageable, username).map(MessageDto::new);
+    }
 }
