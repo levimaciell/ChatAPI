@@ -1,5 +1,6 @@
 package dev.levimaciell.chatAPI.user.entity;
 
+import dev.levimaciell.chatAPI.message.entity.Message;
 import dev.levimaciell.chatAPI.user.dto.UserDto;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity(name = "User")
@@ -25,6 +27,11 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private Boolean userActive;
+
+    @OneToMany(mappedBy = "senderUser")
+    private List<Message> sentMessages;
+    @OneToMany(mappedBy = "receiverUser")
+    private List<Message> receivedMessages;
 
 
     public User(UUID id, String username, String email, String password) {
@@ -84,5 +91,16 @@ public class User implements UserDetails {
         return this.username;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

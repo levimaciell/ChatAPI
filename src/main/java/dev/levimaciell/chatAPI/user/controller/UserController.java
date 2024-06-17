@@ -33,11 +33,14 @@ public class UserController {
         return new ResponseEntity(null, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users")
     @Transactional
-    public ResponseEntity deleteUser(@PathVariable UUID id) {
+    public ResponseEntity deleteUser(HttpServletRequest req) {
 
-        userService.deleteUser(id);
+        var subject = tokenService.validateTokenAndGetSubject(req.getHeader("Authorization")
+                .replace("Bearer ", ""));
+
+        userService.deleteUser(subject);
 
         return ResponseEntity.ok().build();
     }
