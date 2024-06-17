@@ -5,6 +5,7 @@ import dev.levimaciell.chatAPI.message.dto.MessageDto;
 import dev.levimaciell.chatAPI.message.service.MessageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +26,7 @@ public class MessageController {
 
     @Transactional
     @PostMapping
-    public ResponseEntity<MessageDto> createMessage(@RequestBody MessageCreationDto dto, HttpServletRequest req){
+    public ResponseEntity<MessageDto> createMessage(@RequestBody @Valid MessageCreationDto dto, HttpServletRequest req){
         var messageDto = service.createMessage(dto, req);
         return new ResponseEntity<MessageDto>(messageDto, HttpStatus.CREATED);
     }

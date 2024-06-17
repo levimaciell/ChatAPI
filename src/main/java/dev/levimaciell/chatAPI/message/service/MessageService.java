@@ -7,6 +7,7 @@ import dev.levimaciell.chatAPI.message.entity.Message;
 import dev.levimaciell.chatAPI.message.repository.MessageRepository;
 import dev.levimaciell.chatAPI.tokens.TokenService;
 import dev.levimaciell.chatAPI.user.entity.User;
+import dev.levimaciell.chatAPI.user.exceptions.UserCreationValidationException;
 import dev.levimaciell.chatAPI.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class MessageService {
 
         var senderUser = getUserByToken(cleanToken(req.getHeader("Authorization")));
         var receiverUser = userRepository.findById(dto.receiverId())
-                .orElseThrow(()-> new RuntimeException("Receiver user not found"));
+                .orElseThrow(()-> new UserCreationValidationException("Receiver user not found"));
 
         var message = new Message(dto.message(), senderUser, receiverUser);
         messageRepository.save(message);

@@ -21,6 +21,9 @@ public class SecurityConfiguration {
     @Autowired
     private SecurityFilter securityFilter;
 
+    @Autowired
+    private CustomAuthenticationEntryPoint authEntryPoint;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
@@ -33,6 +36,7 @@ public class SecurityConfiguration {
                 //TODO::Remove when not in dev Mode!!!
                 .headers(headers -> headers.frameOptions().sameOrigin())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .httpBasic(basic -> basic.authenticationEntryPoint(authEntryPoint))
                 .build();
     }
 

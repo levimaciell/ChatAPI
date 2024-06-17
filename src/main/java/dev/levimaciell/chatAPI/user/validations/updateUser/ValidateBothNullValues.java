@@ -6,7 +6,7 @@ import dev.levimaciell.chatAPI.user.exceptions.UserUpdateValidationException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ValidateNullValues implements Validation<UserUpdateDto> {
+public class ValidateBothNullValues implements Validation<UserUpdateDto> {
 
     @Override
     public void validate(UserUpdateDto value) {
