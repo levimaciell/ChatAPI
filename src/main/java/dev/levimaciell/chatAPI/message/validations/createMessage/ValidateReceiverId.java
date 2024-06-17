@@ -2,6 +2,7 @@ package dev.levimaciell.chatAPI.message.validations.createMessage;
 
 import dev.levimaciell.chatAPI.Validation;
 import dev.levimaciell.chatAPI.message.dto.MessageCreationDto;
+import dev.levimaciell.chatAPI.message.exception.MessageCreationValidationException;
 import dev.levimaciell.chatAPI.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class ValidateReceiverId implements Validation<MessageCreationDto> {
         var user = repository.findById(value.receiverId());
 
         if(user.isEmpty())
-            throw new RuntimeException("Receiver not found!");
+            throw new MessageCreationValidationException("Receiver not found!");
 
 
     }

@@ -1,5 +1,8 @@
 package dev.levimaciell.chatAPI.exceptions;
 
+import dev.levimaciell.chatAPI.message.exception.MessageCreationValidationException;
+import dev.levimaciell.chatAPI.message.exception.MessageDeletionValidationException;
+import dev.levimaciell.chatAPI.tokens.TokenServiceException;
 import dev.levimaciell.chatAPI.user.exceptions.UserCreationValidationException;
 import dev.levimaciell.chatAPI.user.exceptions.UserDeletionException;
 import dev.levimaciell.chatAPI.user.exceptions.UserUpdateValidationException;
@@ -61,6 +64,36 @@ public class ControllerAdvice {
             (UserUpdateValidationException ex, HttpServletRequest req){
 
         HttpStatus statusCode = HttpStatus.BAD_REQUEST;
+
+        var errorResponse = buildErrorDto(ex, req, statusCode);
+        return new ResponseEntity<>(errorResponse, statusCode);
+    }
+
+    @ExceptionHandler(MessageCreationValidationException.class)
+    public ResponseEntity<ErrorDto> error400MessageCreationValidationException
+            (MessageCreationValidationException ex, HttpServletRequest req){
+
+        HttpStatus statusCode = HttpStatus.BAD_REQUEST;
+
+        var errorResponse = buildErrorDto(ex, req, statusCode);
+        return new ResponseEntity<>(errorResponse, statusCode);
+    }
+
+    @ExceptionHandler(MessageDeletionValidationException.class)
+    public ResponseEntity<ErrorDto> error400MessageDeletionValidationException
+            (MessageDeletionValidationException ex, HttpServletRequest req){
+
+        HttpStatus statusCode = HttpStatus.BAD_REQUEST;
+
+        var errorResponse = buildErrorDto(ex, req, statusCode);
+        return new ResponseEntity<>(errorResponse, statusCode);
+    }
+
+    @ExceptionHandler(TokenServiceException.class)
+    public ResponseEntity<ErrorDto> error400TokenServiceException
+            (TokenServiceException ex, HttpServletRequest req){
+
+        HttpStatus statusCode = HttpStatus.UNAUTHORIZED;
 
         var errorResponse = buildErrorDto(ex, req, statusCode);
         return new ResponseEntity<>(errorResponse, statusCode);
