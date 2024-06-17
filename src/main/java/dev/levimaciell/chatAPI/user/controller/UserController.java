@@ -3,8 +3,8 @@ package dev.levimaciell.chatAPI.user.controller;
 import dev.levimaciell.chatAPI.tokens.TokenResponseDto;
 import dev.levimaciell.chatAPI.tokens.TokenService;
 import dev.levimaciell.chatAPI.user.dto.UserDto;
-import dev.levimaciell.chatAPI.user.service.UserService;
 import dev.levimaciell.chatAPI.user.dto.UserUpdateDto;
+import dev.levimaciell.chatAPI.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 public class UserController {

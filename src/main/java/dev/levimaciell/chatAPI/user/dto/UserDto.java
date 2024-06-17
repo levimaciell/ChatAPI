@@ -7,18 +7,19 @@ import jakarta.validation.constraints.Size;
 
 public record UserDto(
 
-        @NotBlank(message = "É necessário informar um nome de usuário para criação do usuário!")
-        @Size(min = 3, message = "O nome de usuário não pode ser menor que 3 caracteres!")
+        @NotBlank(message = "To create an user, it's necessary to have a username!")
+        @Size(min = 3, message = "Username must have at least 3 characters")
         String username,
 
-        @NotBlank(message = "É necessário informar um email para criação do usuário!")
+        @NotBlank(message = "To create an user, it's necessary to have an email!")
         @Email
         String email,
 
         @NotBlank
         @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$@!%&*?])[A-Za-z\\d#$@!%&*?]{8,}$",
-         message = "A senha deve no mínimo 8 caracteres, incluir pelo menos uma letra maiúscula" +
-                        ", uma letra minúscula, um número e um caractere especial.")
+         message = "Password must have the following requisites: " +
+                 "At least 8 characters, a lowercase letter, an uppercase letter, " +
+                 "a number and a special character.")
 //TODO: Transformar cada pequena validação dessa em um pequeno erro.
         String password
 ) {
