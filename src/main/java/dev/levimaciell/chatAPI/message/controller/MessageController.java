@@ -3,6 +3,8 @@ package dev.levimaciell.chatAPI.message.controller;
 import dev.levimaciell.chatAPI.message.dto.MessageCreationDto;
 import dev.levimaciell.chatAPI.message.dto.MessageDto;
 import dev.levimaciell.chatAPI.message.service.MessageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -19,6 +21,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/messages")
+@Tag(
+        name = "Messages",
+        description = "Endpoint for managing messages"
+)
 public class MessageController {
 
     @Autowired
@@ -26,6 +32,12 @@ public class MessageController {
 
     @Transactional
     @PostMapping
+    @Operation(
+            summary = "Creates a message",
+            description = "Creates a new message, as long as it's not blank and that you give the receiver id." +
+                    "Endpoint requires authentication",
+            tags = {"Messages"}
+    )
     public ResponseEntity<MessageDto> createMessage(@RequestBody @Valid MessageCreationDto dto, HttpServletRequest req){
         var messageDto = service.createMessage(dto, req);
         return new ResponseEntity<MessageDto>(messageDto, HttpStatus.CREATED);
@@ -33,6 +45,12 @@ public class MessageController {
 
     @Transactional
     @DeleteMapping("/{id}")
+    @Operation(
+            summary = "Deletes a message",
+            description = "Deletes a message, by giving the id of this message. " +
+                    "Endpoint requires authentication",
+            tags = {"Messages"}
+    )
     public ResponseEntity deleteMessage(@PathVariable UUID id){
 
         service.deleteMessage(id);
@@ -41,6 +59,12 @@ public class MessageController {
     }
 
     @GetMapping
+    @Operation(
+            summary = "Gets a page of messages",
+            description = "Gets a page of messages of the user which is authenticated, whether he is the sender or receiver. " +
+                    "Endpoint requires authentication",
+            tags = {"Messages"}
+    )
     public Page<MessageDto> getMessages(@PageableDefault(
             sort = "creationTime",
             size = 15,

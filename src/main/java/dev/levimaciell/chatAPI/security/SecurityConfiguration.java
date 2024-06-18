@@ -29,7 +29,8 @@ public class SecurityConfiguration {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req ->{
-                    req.requestMatchers("/login", "/sign-up", "/h2-console/**").permitAll();
+                    req.requestMatchers("/login", "/sign-up", "/h2-console/**",
+                            "/swagger-ui/**", "/v3/api-docs/**").permitAll();
                     req.anyRequest().authenticated();
 //                    req.anyRequest().permitAll();
                 })

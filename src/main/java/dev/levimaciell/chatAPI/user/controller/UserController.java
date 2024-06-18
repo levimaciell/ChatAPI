@@ -5,6 +5,8 @@ import dev.levimaciell.chatAPI.tokens.TokenService;
 import dev.levimaciell.chatAPI.user.dto.UserDto;
 import dev.levimaciell.chatAPI.user.dto.UserUpdateDto;
 import dev.levimaciell.chatAPI.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -14,6 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Tag(
+        name = "Users",
+        description = "Endpoint for managing users"
+)
 public class UserController {
 
     @Autowired
@@ -24,6 +30,12 @@ public class UserController {
 
     @PostMapping("/sign-up")
     @Transactional
+    @Operation(
+            summary = "Creates a new user",
+            description = "Creates a new user. It's necessary to have one to send and receive messages. " +
+                    "Endpoint does not require authentication",
+            tags = {"Users"}
+    )
     public ResponseEntity createUser(@RequestBody @Valid UserDto dto){
 
         userService.createUser(dto);
@@ -33,6 +45,11 @@ public class UserController {
 
     @DeleteMapping("/users")
     @Transactional
+    @Operation(
+            summary = "Deletes a user",
+            description = "Removes an user from the service, not being able to be used again. Needs authentication.",
+            tags = {"Users"}
+    )
     public ResponseEntity deleteUser(HttpServletRequest req) {
 
         var subject = tokenService.validateTokenAndGetSubject(req.getHeader("Authorization")
@@ -45,6 +62,12 @@ public class UserController {
 
     @PutMapping("/users")
     @Transactional
+    @Operation(
+            summary = "Updates a user",
+            description = "Updates an user. You can only change the username and the password(following " +
+                    "the same constraints of when creating it). Needs authentication.",
+            tags = {"Users"}
+    )
     public ResponseEntity<TokenResponseDto> updateUser(@RequestBody @Valid UserUpdateDto dto,
                                                        HttpServletRequest req){
 
